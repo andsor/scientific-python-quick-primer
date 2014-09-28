@@ -10,6 +10,96 @@ scientists, mainly physicists.
 Its aim is to introduce the SciPy stack and in particular, the IPython
 notebook, to attendees who have a computational science background, but not
 necessarily experienced Python before.
+For a quick IPython notebook experience, we cater for serving the notebook to
+participants.
+This hopefully saves time since participants do not need to have to tediously
+set up everything first.
+Plus you will have a defined environment, more specifically, an environment
+defined by you.
+Of course, this needs your machine to be accessible by the participants over
+the network.
+
+## Setup
+
+### Set up the Python virtual environment and the IPython profile
+
+To set up the Python virtual environment with Python 3.4:
+
+    pyvenv-3.4 pyvenv-scipy-primer
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
+    # install scipy stack
+    pip install ipython[all] numpy scipy matplotlib numexpr
+
+    # test scipy stack
+    iptest
+    python -c "import numpy; numpy.test('full')"
+    python -c "import scipy; scipy.test('full')"
+    python -c "import matplotlib; matplotlib.test()"
+    python -c "import numexpr; numexpr.test()"
+
+    # clean up matplotlib test
+    rm -Rf result_images
+
+    # create IPython profile
+    ipython profile create --profile-dir=ipython-scipy-primer
+
+    # install MathJax
+    python -m IPython.external.mathjax
+
+    # install version_information extension
+    ipython --profile-dir ipython-scipy-primer -c "%install_ext http://raw.github.com/jrjohansson/version_information/master/version_information.py"
+
+### Set up a local user for serving the notebook to participants
+
+In order to serve the notebook to participants, think twice before you do it
+under your own user.
+Hint: IPython grants full shell access.
+You might want to secure your local home directory, and prune the ``/tmp``
+directory.
+Bottom line: do this only if you trust people and their machines on the
+network...
+
+    # create new user
+    sudo useradd --create-home --user-group ipnb
+
+    # login as new user
+    sudo su ipnb
+    cd ~
+
+    # clone the git repository
+    mkdir -p repos
+    cd repos
+    git clone https://github.com/andsor/scientific-python-quick-primer.git
+    cd scientific-python-quick-primer
+
+Now repeat the steps to set up Python virtual environment and IPython profile.
+
+## Serving the notebook
+
+### Serve the notebook to participants
+
+Better serve the notebook as another user for security reasons!
+(IPython notebook grants full shell access, and file access!)
+
+    # login as ipnb user
+    sudo su ipnb
+    cd $HOME/repos/scientific-python-quick-primer
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+    ipython notebook --profile-dir $PWD/ipython-scipy-primer --notebook-dir \
+        participants --ip '*' --no-browser
+
+### Serve the notebook to instructor
+   
+As "normal" user:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+    ipython notebook --profile-dir $PWD/ipython-scipy-primer
 
 ## License
 

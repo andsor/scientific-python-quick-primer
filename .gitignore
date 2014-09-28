@@ -52,3 +52,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# custom
+ipython-scipy-primer
+pyvenv-scipy-primer
+.ipynb_checkpoints
+*.sw?
