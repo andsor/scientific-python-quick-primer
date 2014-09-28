@@ -58,3 +58,6 @@ ipython-scipy-primer
 pyvenv-scipy-primer
 .ipynb_checkpoints
 *.sw?
+nbviewer-url
+notebook-url
+participants-viewer/index.ipynb

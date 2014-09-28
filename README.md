@@ -19,6 +19,18 @@ defined by you.
 Of course, this needs your machine to be accessible by the participants over
 the network.
 
+## Resources
+
+https://github.com/ipython-books/cookbook-code/blob/master/toc.md
+http://bekolay.org/scipy2013-workflow/#/15
+http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1003285#s7
+http://nvie.com/files/Git-branching-model.pdf
+http://pyvideo.org/video/2744/the-wonderful-world-of-scientific-computing-with
+http://pyvideo.org/video/2992/how-to-setup-a-new-python-project
+https://github.com/dpsanders/scipy_2014_python
+http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/tree/master/
+http://nbviewer.ipython.org/github/jrjohansson/version_information/blob/master/example.ipynb
+
 ## Setup
 
 ### Set up the Python virtual environment and the IPython profile
@@ -52,6 +64,17 @@ To set up the Python virtual environment with Python 3.4:
     # install version_information extension
     ipython --profile-dir ipython-scipy-primer -c "%install_ext http://raw.github.com/jrjohansson/version_information/master/version_information.py"
 
+    # install nbviewer
+    sudo apt-get libmemcached-dev libcurl4-openssl-dev pandoc libevent-dev
+    
+    # install pylibmc from source due to Python 3 complications
+    pip install -e git+https://github.com/lericson/pylibmc#egg=pylibmc
+    pip install -r https://raw.githubusercontent.com/ipython/nbviewer/master/requirements.txt
+    pip install -e git+https://github.com/ipython/nbviewer#egg=nbviewer
+
+    # install further dependencies
+    pip install netifaces runipy
+
 ### Set up a local user for serving the notebook to participants
 
 In order to serve the notebook to participants, think twice before you do it
@@ -79,6 +102,35 @@ Now repeat the steps to set up Python virtual environment and IPython profile.
 
 ## Serving the notebook
 
+### Start nbviewer for participants
+
+Do this as the normal user:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
+    python -m nbviewer --localfiles=participants-viewer --no-cache
+
+
+The link to the index noteboook:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
+    python -c "import netifaces; print( \
+    'http://{}:5000/localfile/index.ipynb'.format( \
+    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
+    ))" > nbviewer-url
+    python -c "import netifaces; print( \
+    'http://{}:8887'.format( \
+    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
+    ))" > notebook-url
+
+    runipy participants-index.ipynb participants-viewer/index.ipynb
+
+    cat nbviewer-url
+    
+
 ### Serve the notebook to participants
 
 Better serve the notebook as another user for security reasons!
@@ -91,7 +143,7 @@ Better serve the notebook as another user for security reasons!
     # activate virtual environment
     source pyvenv-scipy-primer/bin/activate
     ipython notebook --profile-dir $PWD/ipython-scipy-primer --notebook-dir \
-        participants --ip '*' --no-browser
+        participants --ip '*' --no-browser --port 8887
 
 ### Serve the notebook to instructor
    
