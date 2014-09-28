@@ -19,21 +19,9 @@ defined by you.
 Of course, this needs your machine to be accessible by the participants over
 the network.
 
-## Resources
+## Presentation: The Wonderful World of Scientific Python
 
-https://github.com/ipython-books/cookbook-code/blob/master/toc.md
-http://bekolay.org/scipy2013-workflow/#/15
-http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1003285#s7
-http://nvie.com/files/Git-branching-model.pdf
-http://pyvideo.org/video/2744/the-wonderful-world-of-scientific-computing-with
-http://pyvideo.org/video/2992/how-to-setup-a-new-python-project
-https://github.com/dpsanders/scipy_2014_python
-http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/tree/master/
-http://nbviewer.ipython.org/github/jrjohansson/version_information/blob/master/example.ipynb
-
-## Presentation
-
-  1. "The Wonderful World of Scientific Python: a Guided Tour" by David Sanders
+    ipython nbconvert --profile-dir ipython-scipy-primer the-wonderful-world-of-scientific-python.ipynb --to slides --post serve
 
 ## Setup
 
@@ -77,6 +65,9 @@ To set up the Python virtual environment with Python 3.4:
     python -c "import pygraphviz; pygraphviz.test()"
     python -c "import networkx; networkx.test()"
 
+    # install basemap
+    pip install -e git+https://github.com/matplotlib/basemap#egg=basemap
+    
 
 The following set-up is only needed for the "normal user", not the "ipnb" user:
 
