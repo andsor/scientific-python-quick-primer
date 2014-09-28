@@ -23,6 +23,59 @@ the network.
 
     ipython nbconvert --profile-dir ipython-scipy-primer the-wonderful-world-of-scientific-python.ipynb --to slides --post serve
 
+## Serving the notebook
+
+### Start nbviewer for participants
+
+Do this as the normal user:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
+    python -m nbviewer --localfiles=participants-viewer --no-cache
+
+
+The link to the index noteboook:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
+    python -c "import netifaces; print( \
+    'http://{}:5000/localfile/index.ipynb'.format( \
+    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
+    ))" > nbviewer-url
+    python -c "import netifaces; print( \
+    'http://{}:8887'.format( \
+    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
+    ))" > notebook-url
+
+    runipy participants-index.ipynb participants-viewer/index.ipynb
+
+    echo; echo "Send this link to participants: "; cat nbviewer-url
+    
+
+### Serve the notebook to participants
+
+Better serve the notebook as another user for security reasons!
+(IPython notebook grants full shell access, and file access!)
+
+    # login as ipnb user
+    sudo su ipnb
+    cd $HOME/repos/scientific-python-quick-primer
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+    ipython notebook --profile-dir $PWD/ipython-scipy-primer --notebook-dir \
+        participants --ip '*' --no-browser --port 8887
+
+### Serve the notebook to instructor
+   
+As "normal" user:
+
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+    ipython notebook --profile-dir $PWD/ipython-scipy-primer
+
 ## Setup
 
 ### Set up the Python virtual environment and the IPython profile
@@ -107,58 +160,6 @@ network...
 
 Now repeat the steps to set up Python virtual environment and IPython profile.
 
-## Serving the notebook
-
-### Start nbviewer for participants
-
-Do this as the normal user:
-
-    # activate virtual environment
-    source pyvenv-scipy-primer/bin/activate
-
-    python -m nbviewer --localfiles=participants-viewer --no-cache
-
-
-The link to the index noteboook:
-
-    # activate virtual environment
-    source pyvenv-scipy-primer/bin/activate
-
-    python -c "import netifaces; print( \
-    'http://{}:5000/localfile/index.ipynb'.format( \
-    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
-    ))" > nbviewer-url
-    python -c "import netifaces; print( \
-    'http://{}:8887'.format( \
-    netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr'] \
-    ))" > notebook-url
-
-    runipy participants-index.ipynb participants-viewer/index.ipynb
-
-    echo; echo "Send this link to participants: "; cat nbviewer-url
-    
-
-### Serve the notebook to participants
-
-Better serve the notebook as another user for security reasons!
-(IPython notebook grants full shell access, and file access!)
-
-    # login as ipnb user
-    sudo su ipnb
-    cd $HOME/repos/scientific-python-quick-primer
-
-    # activate virtual environment
-    source pyvenv-scipy-primer/bin/activate
-    ipython notebook --profile-dir $PWD/ipython-scipy-primer --notebook-dir \
-        participants --ip '*' --no-browser --port 8887
-
-### Serve the notebook to instructor
-   
-As "normal" user:
-
-    # activate virtual environment
-    source pyvenv-scipy-primer/bin/activate
-    ipython notebook --profile-dir $PWD/ipython-scipy-primer
 
 ## License
 
