@@ -31,6 +31,10 @@ https://github.com/dpsanders/scipy_2014_python
 http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/tree/master/
 http://nbviewer.ipython.org/github/jrjohansson/version_information/blob/master/example.ipynb
 
+## Presentation
+
+  1. "The Wonderful World of Scientific Python: a Guided Tour" by David Sanders
+
 ## Setup
 
 ### Set up the Python virtual environment and the IPython profile
@@ -63,6 +67,18 @@ To set up the Python virtual environment with Python 3.4:
 
     # install version_information extension
     ipython --profile-dir ipython-scipy-primer -c "%install_ext http://raw.github.com/jrjohansson/version_information/master/version_information.py"
+
+    # install networkx
+    pip install pyyaml
+    pip install -e git+https://github.com/pygraphviz/pygraphviz#egg=pygraphviz
+    pip install networkx
+
+    # test networkx
+    python -c "import pygraphviz; pygraphviz.test()"
+    python -c "import networkx; networkx.test()"
+
+
+The following set-up is only needed for the "normal user", not the "ipnb" user:
 
     # install nbviewer
     sudo apt-get libmemcached-dev libcurl4-openssl-dev pandoc libevent-dev
@@ -128,7 +144,7 @@ The link to the index noteboook:
 
     runipy participants-index.ipynb participants-viewer/index.ipynb
 
-    cat nbviewer-url
+    echo; echo "Send this link to participants: "; cat nbviewer-url
     
 
 ### Serve the notebook to participants
