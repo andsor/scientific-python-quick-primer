@@ -21,6 +21,9 @@ the network.
 
 ## Presentation: The Wonderful World of Scientific Python
 
+    # activate virtual environment
+    source pyvenv-scipy-primer/bin/activate
+
     ipython nbconvert --profile-dir ipython-scipy-primer the-wonderful-world-of-scientific-python.ipynb --to slides --post serve
 
 ## Serving the notebook
